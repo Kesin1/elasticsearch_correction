@@ -33,6 +33,10 @@
   }
   #+END_SRC
 
+  Remark
+  The number of hits stays the same, so be aware if you use this field i.e. in 
+  "Search results: 47"
+
 * permettre au FRONT de récupérer le mot clé d'approximation
 
   Inside the search request body we use a suggester
