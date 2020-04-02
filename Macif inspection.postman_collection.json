@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "e905596a-cf5a-40ad-9fcd-763ae6b006e0",
+		"name": "Macif inspection",
+		"description": "See what you can do:\ntrop de résultats sont remontés par ES\npermettre au FRONT de récupérer le mot clé d'approximation\n",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Original mapping",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"mappings\": {\n\t\"question\": {\n\t    \"properties\": {\n\t\t\"questionId\": {\n\t\t    \"type\": \"text\"\n\t\t},\n\t\t\"embeddedVector\": {\n    \t\t    \"type\": \"binary\",\n        \t    \"doc_values\": true\n    \t\t},\t\n\t\t\"title\": {\n\t\t    \"type\": \"text\",\n\t\t    \"similarity\": \"my_bm25\",\n\t\t    \"norms\": false,\n\t\t    \"analyzer\": \"french_light\",\n\t\t    \"fields\": {\n\t\t\t\"stemmed\": {\n\t\t\t    \"type\": \"text\",\n\t\t\t    \"analyzer\": \"french_heavy\"\n\t\t\t}\n\t\t    }\n\t\t},\n\t\t\"titleReword\": {\n\t\t    \"type\": \"text\",\n\t\t    \"similarity\": \"my_bm25\",\n\t\t    \"norms\": false,\n\t\t    \"analyzer\": \"french_light\",\n\t\t    \"fields\": {\n\t\t\t\"stemmed\": {\n\t\t\t    \"type\": \"text\",\n\t\t\t    \"analyzer\": \"french_heavy\"\n\t\t\t}\n\t\t    }\n\t\t},\n\t\t\"boost\": {\n\t\t    \"type\": \"integer\"\n\t\t},\n\t\t\"knowlegdebaseId\": {\n\t\t    \"type\": \"integer\"\n\t\t},\n\t\t\"status\": {\n\t\t    \"type\": \"keyword\"\n\t\t},\n\t\t\"promoted\":    { \"type\": \"boolean\"  },\n\t\t\"frequent\":    { \"type\": \"boolean\"  },\n\t\t\"responses\": {\n\t\t    \"type\": \"nested\",\n\t\t    \"properties\": {\n\t\t\t\"responseId\": {\n\t\t\t    \"type\": \"integer\"\n\t\t\t},\n\t\t\t\"body\": {\n\t\t\t    \"type\": \"text\",\n\t\t\t    \"similarity\": \"my_bm25\",\n\t\t\t    \"norms\": false,\n\t\t\t    \"analyzer\": \"french_light\",\n\t\t\t    \"fields\": {\n\t\t\t\t\"stemmed\": {\n\t\t\t\t    \"type\": \"text\",\n\t\t\t\t    \"analyzer\": \"french_heavy\"\n\t\t\t\t}\n\t\t\t    }\n\t\t\t},\n\t\t\t\"channel\": {\n\t\t\t    \"type\": \"keyword\"\n\t\t\t},\n\t\t\t\"status\": {\n\t\t\t    \"type\": \"keyword\"\n\t\t\t}\n\t\t    }\n\t\t},\n\t\t\"filters\": {\n\t\t    \"type\": \"nested\",\n\t\t    \"properties\": {\n\t\t\t\"filerId\": {\n\t\t\t    \"type\": \"integer\"\n\t\t\t},\n\t\t\t\"name\": {\n\t\t\t    \"type\": \"keyword\"\n\t\t\t},\n\t\t\t\"type\": {\n\t\t\t    \"type\": \"keyword\"\n\t\t\t}\n\t\t    }\n\t\t}\n\t    }\n\t}\n    },\n    \"settings\": {\n\t\"similarity\": {\n\t    \"my_bm25\": {\n\t\t\"type\": \"BM25\",\n\t\t\"b\":    0\n\t    }\n\t},\n\t\"analysis\": {\n\t    \"char_filter\": {\n\t\t\"french_char_filter\": {\n\t\t    \"type\": \"html_strip\"\n\t\t}\n\t    },\n\t    \"filter\": {\n\t\t\"french_stopwords\": {\n\t\t    \"type\":       \"stop\",\n\t\t    \"stopwords\":  \"analysis/fr_stopwords.txt\",\n\t\t    \"ignore_case\": true\n\t\t},\n\t\t\"french_elision\": {\n\t\t    \"type\": \"elision\",\n\t\t    \"articles_case\": true,\n\t\t    \"articles\": [\n\t\t\t\"l\",\n\t\t\t\"m\",\n\t\t\t\"t\",\n\t\t\t\"qu\",\n\t\t\t\"n\",\n\t\t\t\"s\",\n\t\t\t\"j\",\n\t\t\t\"d\",\n\t\t\t\"c\",\n\t\t\t\"jusqu\",\n\t\t\t\"quoiqu\",\n\t\t\t\"lorsqu\",\n\t\t\t\"puisqu\"\n\t\t    ]\n\t\t},\n\t\t\"french_synonym\": {\n\t\t    \"type\": \"synonym\",\n\t\t    \"ignore_case\": true,\n\t\t    \"expand\": true,\n\t\t    \"lenient\": true,\n\t\t    \"synonyms_path\" : \"analysis/fr_synonym.txt\"\n\t\t},\n\t\t\"french_stemmer\": {\n\t\t    \"type\": \"stemmer\",\n\t\t    \"language\": \"light_french\"\n\t\t},\n\t\t\"french_duplicate\": {\n\t\t    \"type\": \"remove_duplicates\"\n\t\t},\n\t\t\"length_filter\": {\n\t\t    \"type\": \"length\",\n\t\t    \"min\": 2,\n\t\t    \"max\": 100\n\t\t}\n\t    },\n\t    \"analyzer\": {\n\t\t\"french_heavy\": {\n\t\t    \"tokenizer\": \"icu_tokenizer\",\n\t\t    \"char_filter\": [\"french_char_filter\"],\n\t\t    \"filter\": [\n\t\t\t\"french_elision\",\n\t\t\t\"icu_folding\",\n\t\t\t\"length_filter\",\n\t\t\t\"french_stopwords\",\n\t\t\t\"french_synonym\",\n\t\t\t\"french_stemmer\",\n\t\t\t\"french_duplicate\"\n\t\t    ]\n\t\t},\n\t\t\"french_light\": {\n\t\t    \"tokenizer\": \"icu_tokenizer\",\n\t\t    \"char_filter\": [\"french_char_filter\"],\n\t\t    \"filter\": [\n\t\t\t\"french_elision\",\n\t\t\t\"icu_folding\",\n\t\t\t\"length_filter\",\n\t\t\t\"french_stopwords\"\n\t\t    ]\n\t\t}\n\t    }\n\t}\n    }\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN_ES}}/macif",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN_ES}}"
+					],
+					"path": [
+						"macif"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Index",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://{{DOMAIN_ES}}/macif",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN_ES}}"
+					],
+					"path": [
+						"macif"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Show all content",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{DOMAIN_ES}}/macif/_search?pretty=true&q=*:*",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN_ES}}"
+					],
+					"path": [
+						"macif",
+						"_search"
+					],
+					"query": [
+						{
+							"key": "pretty",
+							"value": "true"
+						},
+						{
+							"key": "q",
+							"value": "*:*"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Make a search",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"from\" : 0, \"size\" : 1,\n    \"query\": {\n        \"bool\": {\n            \"minimum_should_match\": \"1\",\n            \"should\": [\n                {\n                    \"multi_match\": {\n                        \"query\": \"banane\",\n                        \"fuzziness\": \"AUTO\",\n                        \"type\": \"most_fields\",\n                        \"fields\": [\n                            \"title^5\",\n                            \"title.stemmed^5\",\n                            \"titleReword^3\",\n                            \"titleReword.stemmed^3\"\n                        ]\n                    }\n                },\n                {\n                    \"nested\": {\n                        \"path\": \"responses\",\n                        \"query\": {\n                            \"multi_match\": {\n                                \"query\": \"banane\",\n                                \"fuzziness\": \"AUTO\",\n                                \"type\": \"most_fields\",\n                                \"fields\": [\n                                    \"responses.body\",\n                                    \"responses.body.stemmed\"\n                                ]\n                            }\n                        }\n                    }\n                }\n            ]\n        }\n    },\n    \"suggest\": {\n        \"text\": \"banane\",\n        \"suggest-title\": {\n            \"term\": {\n                \"field\": \"title\"\n            }\n        },\n        \"suggest-responses\": {\n            \"term\": {\n                \"field\": \"responses.body\"\n            }\n        }\n    },\n    \"explain\": false\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{DOMAIN_ES}}/macif/_search",
+					"protocol": "http",
+					"host": [
+						"{{DOMAIN_ES}}"
+					],
+					"path": [
+						"macif",
+						"_search"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
