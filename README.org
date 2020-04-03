@@ -115,3 +115,37 @@
    
   
 
+* Réglages suggester
+  
+  
+** General
+   
+   - analyzer (the same analyzer that is used for the fields - don't change)
+
+   - size 
+     The maximum corrections to be returned per suggest text token
+     default: no restriction
+
+   - sort
+     score and frequency - lexical order, but can change priority on score or frequency
+     default: first score then frequency
+
+   - suggest-mode
+     controls what suggestions are included
+     controls for what suggest text terms, suggestions should be suggested
+
+     - missing (default)
+       Only provide suggestions for suggest text terms that are not in the index.
+
+     - popular (interesting)
+       Only suggest suggestions that occur in more docs than the original suggest text term
+
+     - always (not so good)
+       Suggest any matching suggestions based on terms in the suggest text.
+
+** Distance
+
+   
+
+
+
