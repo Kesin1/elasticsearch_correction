@@ -117,7 +117,8 @@
 
 * Réglages suggester
   
-  
+  [[https://www.elastic.co/guide/en/elasticsearch/reference/6.8/search-suggesters-term.html][Suggester parameters]]
+
 ** General
    
    - analyzer (the same analyzer that is used for the fields - don't change)
@@ -144,7 +145,37 @@
        Suggest any matching suggestions based on terms in the suggest text.
 
 ** Distance
+   
+   - max_edits (defaults = 2)
+     probably easiest way to limit that
 
+     - banane - banque (q to a, n to u)
+     - banane - bonne (a to o, delete a)
+     - banane - bagage (g to n, g to n)
+
+   - prefix_length (defaults = 1)
+     
+     number of minimal prefix characters that must match in order be a candidate for suggestions
+     Increasing this number improves spellcheck performance. 
+     Usually misspellings don’t occur in the beginning of terms.
+
+   - min_word_length (default = 4)
+     The minimum length a suggest text term must have in order to be included.
+
+   - string_distance - algorithm to use (default = internal, optimized for performance)
+     - other damerau_levenshtein, levenshtein, jaro_winkler, ngram
+
+   - min_doc_freq, max_term_freq ()
+     complicated to set that in a global manner
+
+   - others
+
+     - shard_size, max_inspections
+
+
+
+
+     
    
 
 
