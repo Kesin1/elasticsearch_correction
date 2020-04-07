@@ -3,8 +3,9 @@
 ** sur Macif, y'a 46 résultats pour martine, mais pour maritime, il n'y en a qu'un seul. Pour martine, le 2e résultat contient le mot clé exact maritime.
 
    Il me faut soit deviner le mot qui est tellement représenté dans le KB soit répliquer l'algo et le chercher mais je pense on va bien avec les expliquations dessous
+
    Je pense il y beaucoup de mots avec des caractères m, a, i, n et e dans le KB, donc c'est trop facile de trouver des mots similaire et max_expansions sont à 50 (vois dessous) -    
-   *Il faut changer ça*
+   *Il faut changer ça* - après que j'ai fait le tableau un peu en bas, je pense que c'est pas le cas, peut-etre il y un certain mot qui correspond beaucoup
 
 *** Difference between suggest and Fuzziness
      
@@ -35,10 +36,31 @@
 
      - maritine
        46 Results with Fuzziness on AUTO and prefix_length at 0
-       5 Resutls with Fuzziness on AUTO and prefix_length at 1
-       5 Resutls with Fuzziness on AUTO and prefix_length at 2
+       5 Results with Fuzziness on AUTO and prefix_length at 1
+       5 Results with Fuzziness on AUTO and prefix_length at 2
+
+       46 Results with Fuzziness on AUTO and max_expansions at 10
+       46 Results with Fuzziness on AUTO and max_expansions at 5
+       36 Results with Fuzziness on AUTO and max_expansions at 1
 
      - banane
+       40 Results with Fuzziness on AUTO and prefix_length at 0
+       29 Results with Fuzziness on AUTO and prefix_length at 1
+       28 Results with Fuzziness on AUTO and prefix_length at 2
+
+       40 Results with Fuzziness on AUTO and max_expansions at 10
+       40 Results with Fuzziness on AUTO and max_expansions at 5
+       27 Results with Fuzziness on AUTO and max_expansions at 1
+
+       |                 | max_exp=10                | max_exp=5                  | max_exp=1                  |
+       |-----------------+---------------------------+----------------------------+----------------------------|
+       | prefix_length=0 | banane = 40, martine = 46 | banane = 40 , martine = 46 | banane = 27 , martine = 36 |
+       | prefix_length=1 | banane = 29, martine = 5  | banane = 29 , martine = 5  | banane = 24, martine = 2   |
+       | prefix_length=2 | banane = 28, martine = 5  | banane = 28, martine = 5   | banane = 24 , martine = 2 |
+
+       
+     "max_expansions": 5,
+     "prefix_length": 1,
 
 **** options
 
