@@ -71,9 +71,11 @@
    
    Oui, il va chercher toujours des tokens (mots) et faire les calculations
    
+
 ** fixer un prefix length plus grand : mais quelle longueur ? 3 ?
 
    1 pourrais suffire, regarde les examples sous point 1
+
 
 ** limiter le nombre de résultats à 50 max uniquement lorsqu'on a une query poussée à ES
    
@@ -107,6 +109,7 @@ donc si vous savez que c'est une vrai requette, on pourrais ajouter ça
     
     #+END_SRC
    
+
 ** Parmi toutes les suggestions d'approximitation, est-ce qu'il renvoie des résultats pour toutes les suggestions (banque, bagage, bonne) ou est-ce qu'il prend la meilleure ? comment il la choisit ?
 
    on peut oublier les suggestions -> regarde en haut
@@ -116,11 +119,4 @@ donc si vous savez que c'est une vrai requette, on pourrais ajouter ça
    Fais la meme calculations avec tous les token trouvé
 
 ** Si je tape "comment faire mon relevait de conteur" (au lieu de relevé de compteur) quelle est la suggestion d'approximation qui va être choisie ? relevé / compteur / relevé de compteur / comment faire mon relevé de compteur ?
-
-   
-
-   
-   
-
-
 
