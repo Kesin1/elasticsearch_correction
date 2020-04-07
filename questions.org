@@ -1,0 +1,126 @@
+* Questions
+
+** sur Macif, y'a 46 résultats pour martine, mais pour maritime, il n'y en a qu'un seul. Pour martine, le 2e résultat contient le mot clé exact maritime.
+
+   Il me faut soit deviner le mot qui est tellement représenté dans le KB soit répliquer l'algo et le chercher mais je pense on va bien avec les expliquations dessous
+   Je pense il y beaucoup de mots avec des caractères m, a, i, n et e dans le KB, donc c'est trop facile de trouver des mots similaire et max_expansions sont à 50 (vois dessous) -    
+   *Il faut changer ça*
+
+*** Difference between suggest and Fuzziness
+     
+     - fuzziness
+       Returns documents that contain terms similar to the search term, as measured by a Levenshtein edit distance.
+
+     - suggest
+
+       *Suggest only return similar looking terms* not the documents
+       
+       The suggest feature suggests similar looking terms based on a provided text by using a suggester. 
+       The suggest request part is defined *alongside the query part* in a _search request. 
+       If the query part is left out, only suggestions are returned.
+
+*** fuzziness     
+    
+    *Warning*
+    This query can be very heavy if prefix_length is set to 0 and if max_expansions is set to a high number. 
+    It could result in every term in the index being examined!
+    - based on *Levensthein Distance*
+    - Changing a character (box → fox)
+    - Removing a character (black → lack)
+    - Inserting a character (sic → sick)
+    - Transposing two adjacent characters (act → cat)
+    
+    
+**** examples
+
+     - maritine
+       46 Results with Fuzziness on AUTO and prefix_length at 0
+       5 Resutls with Fuzziness on AUTO and prefix_length at 1
+       5 Resutls with Fuzziness on AUTO and prefix_length at 2
+
+     - banane
+
+**** options
+
+     - fuzziness
+       - maximum Levensteihn Distance = {0, 1, 2}
+       - AUTO
+	 Generates an edit distance based on the length of the term.
+	 0..2 Must match exactly
+         3..5 One edit allowed
+	 >5   Two edits allowed
+
+     - prefix_length
+       The number of initial characters which will not be “fuzzified”. 
+       This helps to reduce the number of terms which must be examined. 
+       Defaults to 0.
+
+     - max_expansions
+       The maximum number of terms that the fuzzy query will expand to. Defaults to 50.
+
+
+
+
+     - 
+
+	 
+
+      
+     
+** si le moteur trouve des résultats pour une requête, est-ce qu'il fait aussi une approximation ?
+   
+   Oui, il va chercher toujours des tokens (mots) et faire les calculations
+   
+** fixer un prefix length plus grand : mais quelle longueur ? 3 ?
+
+   1 pourrais suffire, regarde les examples sous point 1
+
+** limiter le nombre de résultats à 50 max uniquement lorsqu'on a une query poussée à ES
+   
+   on en avait discuté
+   
+*** From Ryver
+
+    #+BEGIN_SRC txt
+    Lucie CordinaTue 2:35pm
+
+   hellooo
+   il me semble qu'avec l'API on fait des requêtes à elastic search pour récupérer l'ensemble des questions / réponses indexées dans le moteur. Donc l'idée du point, c'est de limiter le nombre de résultats qu'Elastic Search nous envoie uniquement si on lui a donné en paramètre une query string (qui correspond à une recherche utilisateur)
+parce que si on limite tout le temps, on va avoir des soucis avec notre backoffice par exemple
+où on affiche toutes les questions renvoyées par ES
+
+Kay FreyerTue 2:43pm(edited)
+donc, comme j'ai compris...à l'un coté vous utilisez l'API pour récuperer des questions/réponses entière dans le moteur (est-ce que c'est toujour toutes les questions/réponses?) et à l'autre coté pour vraiment appeler le moteur de rechecher...c'est comme ça?
+si c'est comme ça, il faudrait que ce sont deux appelles differentes
+
+Lucie CordinaTue 2:45pm
+oui je crois que c'est ça
+avec l'API, on peut passer des filtres (nom de la catégorie par exemple) et ça nous donnerait toutes les questions de la catégorie mise en filtre
+
+Kay FreyerTue 2:46pm(edited)
+je peux pas dire qu'est-ce qui le meilleur moyen pour récupérer tous les documents dans le moteur, parce que ça depend comment ils sont indexés
+ah ok
+bah du coup il le truc avec:
+oups
+"from" : 0, "size" : 50,
+donc si vous savez que c'est une vrai requette, on pourrais ajouter ça
+    
+    #+END_SRC
+   
+** Parmi toutes les suggestions d'approximitation, est-ce qu'il renvoie des résultats pour toutes les suggestions (banque, bagage, bonne) ou est-ce qu'il prend la meilleure ? comment il la choisit ?
+
+   on peut oublier les suggestions -> regarde en haut
+
+   Fuzziness le fait comme ça:
+   Trouver tous les tokens qui sont assez proches (Levensthein distance)
+   Fais la meme calculations avec tous les token trouvé
+
+** Si je tape "comment faire mon relevait de conteur" (au lieu de relevé de compteur) quelle est la suggestion d'approximation qui va être choisie ? relevé / compteur / relevé de compteur / comment faire mon relevé de compteur ?
+
+   
+
+   
+   
+
+
+
